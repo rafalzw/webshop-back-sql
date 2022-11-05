@@ -1,4 +1,11 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Basket } from 'src/basket/basket.entity';
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { ProductInterface } from '../types/product';
 
 @Entity()
@@ -36,4 +43,7 @@ export class Product extends BaseEntity implements ProductInterface {
     scale: 2,
   })
   price: number;
+
+  @OneToMany((type) => Basket, (entity) => entity.product)
+  productsInBasket: Basket[];
 }
