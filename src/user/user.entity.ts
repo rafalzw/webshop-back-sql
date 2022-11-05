@@ -1,5 +1,12 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { UserRole } from '../types/user';
+import { Basket } from '../basket/basket.entity';
 
 @Entity()
 export class User extends BaseEntity {
@@ -43,4 +50,7 @@ export class User extends BaseEntity {
     default: () => 'CURRENT_TIMESTAMP',
   })
   createdAt: Date;
+
+  @OneToMany((type) => Basket, (entity) => entity.user)
+  productsInBasket: Basket[];
 }
