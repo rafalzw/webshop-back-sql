@@ -1,4 +1,5 @@
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { UserRole } from '../types/user';
 
 @Entity()
 export class User extends BaseEntity {
@@ -31,4 +32,15 @@ export class User extends BaseEntity {
     default: null,
   })
   currentTokenId: string | null;
+
+  @Column({
+    nullable: false,
+    default: 'customer',
+  })
+  role: UserRole;
+
+  @Column({
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  createdAt: Date;
 }
