@@ -7,10 +7,13 @@ export class Product extends BaseEntity implements ProductInterface {
   id: string;
   @Column({
     unique: true,
+    length: 50,
   })
   title: string;
 
-  @Column()
+  @Column({
+    length: 1000,
+  })
   desc: string;
 
   @Column()
@@ -27,6 +30,10 @@ export class Product extends BaseEntity implements ProductInterface {
   })
   color: string;
 
-  @Column()
+  @Column({
+    type: 'float',
+    precision: 7,
+    scale: 2,
+  })
   price: number;
 }
