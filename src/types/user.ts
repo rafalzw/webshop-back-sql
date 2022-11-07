@@ -15,6 +15,10 @@ export type UpdateProfileResponse = {
   isSuccess: boolean;
 };
 
+export type DeleteUserResponse = {
+  isSuccess: boolean;
+};
+
 export enum UserRole {
   ADMIN = 'admin',
   CUSTOMER = 'customer',

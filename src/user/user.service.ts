@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { RegisterDto } from './dto/register.dto';
 import * as bcrypt from 'bcrypt';
 import { User } from './user.entity';
-import { RegisterUserResponse } from '../types/user';
+import { DeleteUserResponse, RegisterUserResponse } from '../types/user';
 import { UpdateProfileDto } from './dto/UpdateProfileDto';
 
 @Injectable()
@@ -42,6 +42,13 @@ export class UserService {
 
     await foundUser.save();
 
+    return {
+      isSuccess: true,
+    };
+  }
+
+  async delete(user: User): Promise<DeleteUserResponse> {
+    await User.delete(user.id);
     return {
       isSuccess: true,
     };

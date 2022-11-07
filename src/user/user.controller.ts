@@ -1,7 +1,19 @@
-import { Body, Controller, Inject, Post, Put, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Inject,
+  Post,
+  Put,
+  UseGuards,
+} from '@nestjs/common';
 import { UserService } from './user.service';
 import { RegisterDto } from './dto/register.dto';
-import { RegisterUserResponse, UpdateProfileResponse } from '../types/user';
+import {
+  DeleteUserResponse,
+  RegisterUserResponse,
+  UpdateProfileResponse,
+} from '../types/user';
 import { AuthGuard } from '@nestjs/passport';
 import { User } from './user.entity';
 import { UpdateProfileDto } from './dto/UpdateProfileDto';
@@ -23,5 +35,11 @@ export class UserController {
     @Body() profile: UpdateProfileDto,
   ): Promise<UpdateProfileResponse> {
     return this.userService.update(user, profile);
+  }
+
+  @Delete('/delete')
+  @UseGuards(AuthGuard('jwt'))
+  deleteUser(@UserObj() user: User): Promise<DeleteUserResponse> {
+    return this.userService.delete(user);
   }
 }
