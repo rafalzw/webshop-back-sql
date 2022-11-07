@@ -11,6 +11,11 @@ export type RegisterUserResponse = {
   user: UserInterface;
 };
 
+export type GetOneUserResponse = {
+  isSuccess: boolean;
+  user: UserInterface;
+};
+
 export type UpdateProfileResponse = {
   isSuccess: boolean;
 };
