@@ -13,6 +13,7 @@ import { UserService } from './user.service';
 import { RegisterDto } from './dto/register.dto';
 import {
   DeleteUserResponse,
+  GetAllUserResponse,
   GetOneUserResponse,
   RegisterUserResponse,
   UpdateProfileResponse,
@@ -25,7 +26,7 @@ import { UserObj } from '../decorators/user-obj.decorator';
 import { Role } from '../decorators/user-role.decorator';
 import { UserRoleGuard } from 'src/guards/user-role.guard';
 
-@Controller('user')
+@Controller('users')
 export class UserController {
   constructor(@Inject(UserService) private readonly userService: UserService) {}
 
@@ -34,6 +35,13 @@ export class UserController {
   @Role(UserRole.ADMIN)
   getOneUser(@Param('id') id: string): Promise<GetOneUserResponse> {
     return this.userService.getOne(id);
+  }
+
+  @Get('/')
+  @UseGuards(AuthGuard('jwt'), UserRoleGuard)
+  @Role(UserRole.ADMIN)
+  getAllUser(): Promise<GetAllUserResponse> {
+    return this.userService.getAll();
   }
 
   @Post('/register')

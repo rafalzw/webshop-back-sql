@@ -46,6 +46,15 @@ export class UserService {
     };
   }
 
+  async getAll() {
+    const [data, count] = await User.findAndCount();
+
+    return {
+      isSuccess: true,
+      data: data.map((user) => this.filter(user)),
+    };
+  }
+
   async update(user: User, profile: UpdateProfileDto) {
     const foundUser = await User.findOne({ where: { id: user.id } });
 
