@@ -11,6 +11,10 @@ export type RegisterUserResponse = {
   user: UserInterface;
 };
 
+export type UpdateProfileResponse = {
+  isSuccess: boolean;
+};
+
 export enum UserRole {
   ADMIN = 'admin',
   CUSTOMER = 'customer',
