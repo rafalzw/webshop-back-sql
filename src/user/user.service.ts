@@ -34,7 +34,7 @@ export class UserService {
 
     return {
       isSuccess: true,
-      user: { firstName, lastName, username, email },
+      data: { firstName, lastName, username, email },
     };
   }
 
@@ -42,7 +42,7 @@ export class UserService {
     const foundUser = await User.findOne({ where: { id } });
     return {
       isSuccess: true,
-      user: this.filter(foundUser),
+      data: this.filter(foundUser),
     };
   }
 

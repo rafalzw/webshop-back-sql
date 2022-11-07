@@ -8,12 +8,12 @@ export interface UserInterface {
 
 export type RegisterUserResponse = {
   isSuccess: boolean;
-  user: UserInterface;
+  data: UserInterface;
 };
 
 export type GetOneUserResponse = {
   isSuccess: boolean;
-  user: UserInterface;
+  data: UserInterface;
 };
 export type GetAllUserResponse = {
   isSuccess: boolean;
