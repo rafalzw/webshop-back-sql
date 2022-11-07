@@ -30,23 +30,23 @@ import { UserRoleGuard } from 'src/guards/user-role.guard';
 export class UserController {
   constructor(@Inject(UserService) private readonly userService: UserService) {}
 
-  @Get('/:id')
+  @Post('/register')
+  registerUser(@Body() user: RegisterDto): Promise<RegisterUserResponse> {
+    return this.userService.register(user);
+  }
+
+  @Get('/find/:id')
   @UseGuards(AuthGuard('jwt'), UserRoleGuard)
   @Role(UserRole.ADMIN)
   getOneUser(@Param('id') id: string): Promise<GetOneUserResponse> {
     return this.userService.getOne(id);
   }
 
-  @Get('/')
+  @Get('/:pageNumber?')
   @UseGuards(AuthGuard('jwt'), UserRoleGuard)
   @Role(UserRole.ADMIN)
-  getAllUser(): Promise<GetAllUserResponse> {
-    return this.userService.getAll();
-  }
-
-  @Post('/register')
-  registerUser(@Body() user: RegisterDto): Promise<RegisterUserResponse> {
-    return this.userService.register(user);
+  getAllUser(@Param('pageNumber') pageNumber = 1): Promise<GetAllUserResponse> {
+    return this.userService.getAll(pageNumber);
   }
 
   @Put('/profile')

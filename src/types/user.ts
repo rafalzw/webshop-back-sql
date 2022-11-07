@@ -18,6 +18,7 @@ export type GetOneUserResponse = {
 export type GetAllUserResponse = {
   isSuccess: boolean;
   data: UserInterface[];
+  totalPages: number;
 };
 
 export type UpdateProfileResponse = {

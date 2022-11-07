@@ -4,6 +4,7 @@ import * as bcrypt from 'bcrypt';
 import { User } from './user.entity';
 import {
   DeleteUserResponse,
+  GetAllUserResponse,
   GetOneUserResponse,
   RegisterUserResponse,
   UserInterface,
@@ -46,12 +47,20 @@ export class UserService {
     };
   }
 
-  async getAll() {
-    const [data, count] = await User.findAndCount();
+  async getAll(pageNumber: number): Promise<GetAllUserResponse> {
+    const maxPerPage = 2;
+    const currentPage = Number(pageNumber);
+
+    const [data, pagesCount] = await User.findAndCount({
+      skip: maxPerPage * (currentPage - 1),
+      take: maxPerPage,
+    });
+    const totalPages = Math.ceil(pagesCount / maxPerPage);
 
     return {
       isSuccess: true,
       data: data.map((user) => this.filter(user)),
+      totalPages,
     };
   }
 
