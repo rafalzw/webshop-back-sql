@@ -51,6 +51,8 @@ export class AuthService {
       if (user && (await bcrypt.compare(req.password, user.password))) {
         const token = this.createToken(await this.generateToken(user));
 
+        const { id, username, email, role, firstName, lastName } = user;
+
         return res
           .cookie('jwt', token.accessToken, {
             secure: true,
@@ -58,9 +60,14 @@ export class AuthService {
           })
           .json({
             isSuccess: true,
-            role: user.role,
-            firstName: user.firstName,
-            lastName: user.lastName,
+            user: {
+              id,
+              username,
+              email,
+              role,
+              firstName,
+              lastName,
+            },
           });
       }
 
