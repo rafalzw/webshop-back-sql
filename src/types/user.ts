@@ -6,6 +6,16 @@ export interface UserInterface {
   email: string;
 }
 
+export enum UserRole {
+  ADMIN = 'admin',
+  CUSTOMER = 'customer',
+}
+
+export interface UserStatsInterface {
+  month: number;
+  users: number;
+}
+
 export type RegisterUserResponse = {
   isSuccess: boolean;
   data: UserInterface;
@@ -15,6 +25,7 @@ export type GetOneUserResponse = {
   isSuccess: boolean;
   data: UserInterface;
 };
+
 export type GetAllUserResponse = {
   isSuccess: boolean;
   data: UserInterface[];
@@ -29,7 +40,7 @@ export type DeleteUserResponse = {
   isSuccess: boolean;
 };
 
-export enum UserRole {
-  ADMIN = 'admin',
-  CUSTOMER = 'customer',
-}
+export type GetStatsResponse = {
+  isSuccess: boolean;
+  data: UserStatsInterface[];
+};

@@ -15,6 +15,7 @@ import {
   DeleteUserResponse,
   GetAllUserResponse,
   GetOneUserResponse,
+  GetStatsResponse,
   RegisterUserResponse,
   UpdateProfileResponse,
   UserRole,
@@ -42,7 +43,7 @@ export class UserController {
     return this.userService.getOne(id);
   }
 
-  @Get('/:pageNumber?')
+  @Get('/all/:pageNumber?')
   @UseGuards(AuthGuard('jwt'), UserRoleGuard)
   @Role(UserRole.ADMIN)
   getAllUser(@Param('pageNumber') pageNumber = 1): Promise<GetAllUserResponse> {
@@ -62,5 +63,14 @@ export class UserController {
   @UseGuards(AuthGuard('jwt'))
   deleteUser(@UserObj() user: User): Promise<DeleteUserResponse> {
     return this.userService.delete(user);
+  }
+
+  @Get('/stats/:year?')
+  @UseGuards(AuthGuard('jwt'), UserRoleGuard)
+  @Role(UserRole.ADMIN)
+  getStats(
+    @Param('year') year = new Date().getFullYear(),
+  ): Promise<GetStatsResponse> {
+    return this.userService.getStats(year);
   }
 }

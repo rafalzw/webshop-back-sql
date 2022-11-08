@@ -6,10 +6,12 @@ import {
   DeleteUserResponse,
   GetAllUserResponse,
   GetOneUserResponse,
+  GetStatsResponse,
   RegisterUserResponse,
   UserInterface,
 } from '../types/user';
 import { UpdateProfileDto } from './dto/UpdateProfileDto';
+import { databaseProviders } from '../database.providers';
 
 @Injectable()
 export class UserService {
@@ -87,6 +89,21 @@ export class UserService {
     await User.delete(user.id);
     return {
       isSuccess: true,
+    };
+  }
+
+  async getStats(year: number): Promise<GetStatsResponse> {
+    const data = await User.query(
+      `SELECT
+                EXTRACT(month FROM createdAt) AS month,
+                COUNT(*) AS users
+            FROM user
+            WHERE YEAR(createdAt)=${year}
+            GROUP BY EXTRACT(month FROM createdAt);`,
+    );
+    return {
+      isSuccess: true,
+      data,
     };
   }
 }
