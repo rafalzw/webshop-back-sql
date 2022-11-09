@@ -1,5 +1,5 @@
 export interface ProductInterface {
-  id: string;
+  id?: string;
   title: string;
   desc: string;
   img: string;
@@ -8,3 +8,8 @@ export interface ProductInterface {
   color: string;
   price: number;
 }
+
+export type AddProductResponse = {
+  isSuccess: boolean;
+  data: ProductInterface;
+};
