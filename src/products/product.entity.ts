@@ -44,6 +44,11 @@ export class Product extends BaseEntity implements ProductInterface {
   })
   price: number;
 
+  @Column({
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  createdAt: Date;
+
   @OneToMany((type) => Basket, (entity) => entity.product)
   productsInBasket: Basket[];
 }

@@ -36,9 +36,24 @@ export class ProductsService {
     };
   }
 
-  async getAll(): Promise<GetAllProductsResponse> {
-    const foundProducts = await Product.find();
+  async getAll(queryNew, queryCat): Promise<GetAllProductsResponse> {
+    let foundProducts;
 
+    if (queryNew) {
+      foundProducts = await Product.find({
+        order: {
+          createdAt: 'DESC',
+        },
+      });
+    } else if (queryCat) {
+      foundProducts = await Product.find({
+        where: {
+          categories: queryCat,
+        },
+      });
+    } else {
+      foundProducts = await Product.find();
+    }
     return {
       isSuccess: true,
       data: foundProducts,

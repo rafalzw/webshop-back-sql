@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
@@ -41,8 +42,11 @@ export class ProductsController {
   }
 
   @Get('/')
-  getAll(): Promise<GetAllProductsResponse> {
-    return this.productService.getAll();
+  getAll(
+    @Query('new') queryNew: boolean,
+    @Query('category') queryCat: string,
+  ): Promise<GetAllProductsResponse> {
+    return this.productService.getAll(queryNew, queryCat);
   }
 
   @Put('/:id')
