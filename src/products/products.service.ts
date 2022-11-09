@@ -3,6 +3,7 @@ import { AddProductDto } from './dto/add-product.dto';
 import { Product } from './product.entity';
 import {
   AddProductResponse,
+  DeleteProductResponse,
   GetAllProductsResponse,
   GetOneProductResponse,
   UpdateProductResponse,
@@ -77,6 +78,15 @@ export class ProductsService {
     foundProduct.size = size;
 
     await foundProduct.save();
+
+    return {
+      isSuccess: true,
+    };
+  }
+
+  async remove(id: string): Promise<DeleteProductResponse> {
+    const foundProduct = await Product.findOneOrFail({ where: { id } });
+    foundProduct.remove();
 
     return {
       isSuccess: true,

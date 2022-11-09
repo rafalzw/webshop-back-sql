@@ -27,3 +27,7 @@ export type GetAllProductsResponse = {
 export type UpdateProductResponse = {
   isSuccess: boolean;
 };
+
+export type DeleteProductResponse = {
+  isSuccess: boolean;
+};

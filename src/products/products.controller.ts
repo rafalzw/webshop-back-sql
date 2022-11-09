@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Inject,
   Param,
@@ -13,6 +14,7 @@ import { ProductsService } from './products.service';
 import { AddProductDto } from './dto/add-product.dto';
 import {
   AddProductResponse,
+  DeleteProductResponse,
   GetAllProductsResponse,
   GetOneProductResponse,
   UpdateProductResponse,
@@ -57,5 +59,10 @@ export class ProductsController {
     @Param('id') id: string,
   ): Promise<UpdateProductResponse> {
     return this.productService.update(product, id);
+  }
+
+  @Delete('/:id')
+  remove(@Param('id') id: string): Promise<DeleteProductResponse> {
+    return this.productService.remove(id);
   }
 }
