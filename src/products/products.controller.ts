@@ -36,15 +36,11 @@ export class ProductsController {
   }
 
   @Get('/:id')
-  @UseGuards(AuthGuard('jwt'), UserRoleGuard)
-  @Role(UserRole.ADMIN)
   getOne(@Param('id') id: string): Promise<GetOneProductResponse> {
     return this.productService.getOne(id);
   }
 
   @Get('/')
-  @UseGuards(AuthGuard('jwt'), UserRoleGuard)
-  @Role(UserRole.ADMIN)
   getAll(): Promise<GetAllProductsResponse> {
     return this.productService.getAll();
   }
