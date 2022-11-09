@@ -6,3 +6,7 @@ export type AddToBasketResponse =
   | {
       isSuccess: false;
     };
+
+export type RemoveProductResponse = {
+  isSuccess: boolean;
+};
