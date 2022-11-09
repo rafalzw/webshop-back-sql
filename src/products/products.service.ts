@@ -5,10 +5,9 @@ import {
   AddProductResponse,
   GetAllProductsResponse,
   GetOneProductResponse,
+  UpdateProductResponse,
 } from '../types/product';
-import { GetOneUserResponse } from '../types/user';
-import { User } from '../user/user.entity';
-import { GlobalExceptionFilter } from '../filters/global-exception.filter';
+import { UpdateProductDto } from './dto/update-product.dto';
 
 @Injectable()
 export class ProductsService {
@@ -43,6 +42,29 @@ export class ProductsService {
     return {
       isSuccess: true,
       data: foundProducts,
+    };
+  }
+
+  async update(
+    product: UpdateProductDto,
+    id: string,
+  ): Promise<UpdateProductResponse> {
+    const foundProduct = await Product.findOneOrFail({ where: { id } });
+
+    const { title, desc, img, price, color, size, categories } = product;
+
+    foundProduct.title = title;
+    foundProduct.categories = categories;
+    foundProduct.desc = desc;
+    foundProduct.img = img;
+    foundProduct.price = price;
+    foundProduct.color = color;
+    foundProduct.size = size;
+
+    await foundProduct.save();
+
+    return {
+      isSuccess: true,
     };
   }
 }

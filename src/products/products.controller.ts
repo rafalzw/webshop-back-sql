@@ -5,6 +5,7 @@ import {
   Inject,
   Param,
   Post,
+  Put,
   UseGuards,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
@@ -13,11 +14,13 @@ import {
   AddProductResponse,
   GetAllProductsResponse,
   GetOneProductResponse,
+  UpdateProductResponse,
 } from '../types/product';
 import { AuthGuard } from '@nestjs/passport';
 import { UserRoleGuard } from '../guards/user-role.guard';
 import { Role } from '../decorators/user-role.decorator';
 import { UserRole } from '../types/user';
+import { UpdateProductDto } from './dto/update-product.dto';
 
 @Controller('products')
 export class ProductsController {
@@ -44,5 +47,15 @@ export class ProductsController {
   @Role(UserRole.ADMIN)
   getAll(): Promise<GetAllProductsResponse> {
     return this.productService.getAll();
+  }
+
+  @Put('/:id')
+  @UseGuards(AuthGuard('jwt'), UserRoleGuard)
+  @Role(UserRole.ADMIN)
+  update(
+    @Body() product: UpdateProductDto,
+    @Param('id') id: string,
+  ): Promise<UpdateProductResponse> {
+    return this.productService.update(product, id);
   }
 }

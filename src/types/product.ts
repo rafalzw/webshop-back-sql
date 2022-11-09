@@ -23,3 +23,7 @@ export type GetAllProductsResponse = {
   isSuccess: boolean;
   data: ProductInterface[];
 };
+
+export type UpdateProductResponse = {
+  isSuccess: boolean;
+};
