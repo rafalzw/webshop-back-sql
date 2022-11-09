@@ -43,12 +43,13 @@ export class ProductsController {
     return this.productService.getOne(id);
   }
 
-  @Get('/')
+  @Get('/:pageNumber?')
   getAll(
+    @Param('pageNumber') pageNumber = 1,
     @Query('new') queryNew: boolean,
     @Query('category') queryCat: string,
   ): Promise<GetAllProductsResponse> {
-    return this.productService.getAll(queryNew, queryCat);
+    return this.productService.getAll(pageNumber, queryNew, queryCat);
   }
 
   @Put('/:id')

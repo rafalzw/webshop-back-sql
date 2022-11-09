@@ -22,6 +22,7 @@ export type GetOneProductResponse = {
 export type GetAllProductsResponse = {
   isSuccess: boolean;
   data: ProductInterface[];
+  totalPages: number;
 };
 
 export type UpdateProductResponse = {

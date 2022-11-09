@@ -37,27 +37,45 @@ export class ProductsService {
     };
   }
 
-  async getAll(queryNew, queryCat): Promise<GetAllProductsResponse> {
+  async getAll(
+    pageNumber: number,
+    queryNew: boolean,
+    queryCat: string,
+  ): Promise<GetAllProductsResponse> {
     let foundProducts;
+    let pagesCount;
+
+    const maxPerPage = 6;
+    const currentPage = Number(pageNumber);
 
     if (queryNew) {
-      foundProducts = await Product.find({
+      [foundProducts, pagesCount] = await Product.findAndCount({
         order: {
           createdAt: 'DESC',
         },
+        skip: maxPerPage * (currentPage - 1),
+        take: maxPerPage,
       });
     } else if (queryCat) {
-      foundProducts = await Product.find({
+      [foundProducts, pagesCount] = await Product.findAndCount({
         where: {
           categories: queryCat,
         },
+        skip: maxPerPage * (currentPage - 1),
+        take: maxPerPage,
       });
     } else {
-      foundProducts = await Product.find();
+      [foundProducts, pagesCount] = await Product.findAndCount({
+        skip: maxPerPage * (currentPage - 1),
+        take: maxPerPage,
+      });
     }
+    const totalPages = Math.ceil(pagesCount / maxPerPage);
+
     return {
       isSuccess: true,
       data: foundProducts,
+      totalPages,
     };
   }
 
