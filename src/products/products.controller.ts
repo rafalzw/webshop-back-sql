@@ -1,7 +1,19 @@
-import { Body, Controller, Inject, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Inject,
+  Param,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { AddProductDto } from './dto/add-product.dto';
-import { AddProductResponse } from '../types/product';
+import {
+  AddProductResponse,
+  GetAllProductsResponse,
+  GetOneProductResponse,
+} from '../types/product';
 import { AuthGuard } from '@nestjs/passport';
 import { UserRoleGuard } from '../guards/user-role.guard';
 import { Role } from '../decorators/user-role.decorator';
@@ -18,5 +30,19 @@ export class ProductsController {
   @Role(UserRole.ADMIN)
   addProduct(@Body() product: AddProductDto): Promise<AddProductResponse> {
     return this.productService.addProduct(product);
+  }
+
+  @Get('/:id')
+  @UseGuards(AuthGuard('jwt'), UserRoleGuard)
+  @Role(UserRole.ADMIN)
+  getOne(@Param('id') id: string): Promise<GetOneProductResponse> {
+    return this.productService.getOne(id);
+  }
+
+  @Get('/')
+  @UseGuards(AuthGuard('jwt'), UserRoleGuard)
+  @Role(UserRole.ADMIN)
+  getAll(): Promise<GetAllProductsResponse> {
+    return this.productService.getAll();
   }
 }
