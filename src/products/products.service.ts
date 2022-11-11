@@ -104,7 +104,7 @@ export class ProductsService {
 
   async remove(id: string): Promise<DeleteProductResponse> {
     const foundProduct = await Product.findOneOrFail({ where: { id } });
-    foundProduct.remove();
+    await foundProduct.remove();
 
     return {
       isSuccess: true,

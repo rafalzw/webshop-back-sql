@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 import { Product } from '../products/product.entity';
 import { User } from '../user/user.entity';
+import { ProductInterface } from '../types/product';
 
 @Entity()
 export class Basket extends BaseEntity {
@@ -19,7 +20,7 @@ export class Basket extends BaseEntity {
 
   @ManyToOne((type) => Product, (entity) => entity.productsInBasket)
   @JoinColumn()
-  product: Product;
+  product: ProductInterface;
 
   @ManyToOne((type) => User, (entity) => entity.productsInBasket)
   @JoinColumn()
