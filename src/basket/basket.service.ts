@@ -3,11 +3,13 @@ import { AddToBasketDto } from './dto/add-to-basket.dto';
 import { User } from '../user/user.entity';
 import {
   AddToBasketResponse,
+  GetAllBasketsResponse,
   GetUserBasketResponse,
   RemoveProductResponse,
 } from 'src/types/basket';
 import { ProductsService } from '../products/products.service';
 import { Basket } from './basket.entity';
+import { ProductInterface } from '../types/product';
 
 @Injectable()
 export class BasketService {
@@ -58,6 +60,25 @@ export class BasketService {
     return {
       isSuccess: true,
       data: { id: basket.id, count: basket.count, product: basket.product },
+    };
+  }
+
+  async getAllBaskets(pageNumber: number): Promise<GetAllBasketsResponse> {
+    const maxPerPage = 10;
+    const currentPage = Number(pageNumber);
+
+    const [data, pagesCount] = await Basket.findAndCount({
+      relations: ['user', 'product'],
+      skip: maxPerPage * (currentPage - 1),
+      take: maxPerPage,
+    });
+
+    const totalPages = Math.ceil(pagesCount / maxPerPage);
+
+    return {
+      isSuccess: true,
+      data,
+      totalPages,
     };
   }
 

@@ -15,9 +15,13 @@ import { AddToBasketDto } from './dto/add-to-basket.dto';
 import { User } from '../user/user.entity';
 import {
   AddToBasketResponse,
+  GetAllBasketsResponse,
   GetUserBasketResponse,
   RemoveProductResponse,
 } from '../types/basket';
+import { UserRoleGuard } from '../guards/user-role.guard';
+import { Role } from '../decorators/user-role.decorator';
+import { UserRole } from '../types/user';
 
 @Controller('basket')
 export class BasketController {
@@ -36,6 +40,15 @@ export class BasketController {
   @UseGuards(AuthGuard('jwt'))
   getUserBasket(@UserObj() user: User): Promise<GetUserBasketResponse> {
     return this.basketService.getUserBasket(user);
+  }
+
+  @Get('/all/:pageNumber?')
+  @UseGuards(AuthGuard('jwt'), UserRoleGuard)
+  @Role(UserRole.ADMIN)
+  getAllBaskets(
+    @Param('pageNumber') pageNumber = 1,
+  ): Promise<GetAllBasketsResponse> {
+    return this.basketService.getAllBaskets(pageNumber);
   }
 
   @Delete('/:id')
