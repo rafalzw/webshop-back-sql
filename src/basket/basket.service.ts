@@ -1,11 +1,13 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { AddToBasketDto } from './dto/add-to-basket.dto';
 import { User } from '../user/user.entity';
-import { AddToBasketResponse, RemoveProductResponse } from 'src/types/basket';
+import {
+  AddToBasketResponse,
+  GetUserBasketResponse,
+  RemoveProductResponse,
+} from 'src/types/basket';
 import { ProductsService } from '../products/products.service';
 import { Basket } from './basket.entity';
-import { DeleteProductResponse } from '../types/product';
-import { Product } from '../products/product.entity';
 
 @Injectable()
 export class BasketService {
@@ -43,6 +45,19 @@ export class BasketService {
     return {
       isSuccess: true,
       id: item.id,
+    };
+  }
+
+  async getUserBasket(user: User): Promise<GetUserBasketResponse> {
+    const { id } = user;
+    const basket = await Basket.findOneOrFail({
+      relations: ['user', 'product'],
+      where: { user: { id } },
+    });
+
+    return {
+      isSuccess: true,
+      data: { id: basket.id, count: basket.count, product: basket.product },
     };
   }
 
