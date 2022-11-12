@@ -83,12 +83,16 @@ export class BasketService {
     };
   }
 
-  async remove(id: string): Promise<RemoveProductResponse> {
-    const foundProduct = await Basket.findOneOrFail({
-      relations: ['product'],
-      where: { product: { id } },
+  async remove(
+    itemInBasketId: string,
+    user: User,
+  ): Promise<RemoveProductResponse> {
+    const { id } = user;
+    const item = await Basket.findOneOrFail({
+      relations: ['product', 'user'],
+      where: { id: itemInBasketId, user: { id } },
     });
-    await foundProduct.remove();
+    await item.remove();
 
     return {
       isSuccess: true,

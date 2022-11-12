@@ -53,7 +53,10 @@ export class BasketController {
 
   @Delete('/:id')
   @UseGuards(AuthGuard('jwt'))
-  remove(@Param('id') id: string): Promise<RemoveProductResponse> {
-    return this.basketService.remove(id);
+  remove(
+    @Param('itemInBasketId') itemInBasketId: string,
+    @UserObj() user: User,
+  ): Promise<RemoveProductResponse> {
+    return this.basketService.remove(itemInBasketId, user);
   }
 }
