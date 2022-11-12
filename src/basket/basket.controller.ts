@@ -16,7 +16,7 @@ import { User } from '../user/user.entity';
 import {
   AddToBasketResponse,
   GetAllBasketsResponse,
-  GetUserBasketResponse,
+  GetAllForUserResponse,
   RemoveProductResponse,
 } from '../types/basket';
 import { UserRoleGuard } from '../guards/user-role.guard';
@@ -38,8 +38,8 @@ export class BasketController {
 
   @Get('/')
   @UseGuards(AuthGuard('jwt'))
-  getUserBasket(@UserObj() user: User): Promise<GetUserBasketResponse> {
-    return this.basketService.getUserBasket(user);
+  getUserBasket(@UserObj() user: User): Promise<GetAllForUserResponse> {
+    return this.basketService.getAllForUser(user);
   }
 
   @Get('/all/:pageNumber?')

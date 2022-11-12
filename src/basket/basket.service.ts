@@ -4,12 +4,11 @@ import { User } from '../user/user.entity';
 import {
   AddToBasketResponse,
   GetAllBasketsResponse,
-  GetUserBasketResponse,
+  GetAllForUserResponse,
   RemoveProductResponse,
 } from 'src/types/basket';
 import { ProductsService } from '../products/products.service';
 import { Basket } from './basket.entity';
-import { ProductInterface } from '../types/product';
 
 @Injectable()
 export class BasketService {
@@ -50,16 +49,18 @@ export class BasketService {
     };
   }
 
-  async getUserBasket(user: User): Promise<GetUserBasketResponse> {
+  async getAllForUser(user: User): Promise<GetAllForUserResponse> {
     const { id } = user;
-    const basket = await Basket.findOneOrFail({
+    const itemsInBasket = await Basket.find({
       relations: ['user', 'product'],
       where: { user: { id } },
     });
 
     return {
       isSuccess: true,
-      data: { id: basket.id, count: basket.count, product: basket.product },
+      data: itemsInBasket.map((item) => {
+        return { id: item.id, count: item.count, product: item.product };
+      }),
     };
   }
 

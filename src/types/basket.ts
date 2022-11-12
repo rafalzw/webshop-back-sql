@@ -14,9 +14,9 @@ export type RemoveProductResponse = {
   isSuccess: boolean;
 };
 
-export type GetUserBasketResponse = {
+export type GetAllForUserResponse = {
   isSuccess: boolean;
-  data: { id: string; count: number; product: ProductInterface };
+  data: { id: string; count: number; product: ProductInterface }[];
 };
 
 export type GetAllBasketsResponse = {
