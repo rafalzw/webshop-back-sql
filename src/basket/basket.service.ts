@@ -64,7 +64,7 @@ export class BasketService {
     };
   }
 
-  async getAllBaskets(pageNumber: number): Promise<GetAllBasketsResponse> {
+  async getAllForAdmin(pageNumber: number): Promise<GetAllBasketsResponse> {
     const maxPerPage = 10;
     const currentPage = Number(pageNumber);
 

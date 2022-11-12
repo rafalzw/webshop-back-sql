@@ -45,10 +45,10 @@ export class BasketController {
   @Get('/all/:pageNumber?')
   @UseGuards(AuthGuard('jwt'), UserRoleGuard)
   @Role(UserRole.ADMIN)
-  getAllBaskets(
+  getAllForAdmin(
     @Param('pageNumber') pageNumber = 1,
   ): Promise<GetAllBasketsResponse> {
-    return this.basketService.getAllBaskets(pageNumber);
+    return this.basketService.getAllForAdmin(pageNumber);
   }
 
   @Delete('/:id')
